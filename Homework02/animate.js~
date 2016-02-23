@@ -1,0 +1,41 @@
+var c = document.getElementById("slate");
+var ctx = c.getContext("2d");
+var circleButton = document.getElementById("circle");
+var stopButton = document.getElementById("stop");
+
+ctx.fillStyle = "#00ff00";
+
+var radius = 0;
+
+var expand = true;
+
+var drawC = function(e){
+    e.preventDefault();
+    ctx.clearRect(0,0,500,500);
+    if (expand){
+	radius += 1;
+    }
+    else{
+	radius -= 1;
+    }
+    if (radius == 250){
+	expand = false;
+    }
+    if (radius == 0){
+	expand = true;
+    }
+
+    ctx.beginPath();
+    ctx.arc(c.height/2, c.width/2, radius, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    window.requestAnimationFrame(drawC);
+};
+
+var stopC = function(e){
+    e.preventDefault();
+    window.cancelAnimationFrame(drawC);
+};
+
+circleButton.addEventListener("click", drawC);
+stopButton.addEventListener("click", stopC);
